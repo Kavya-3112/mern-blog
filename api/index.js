@@ -6,12 +6,12 @@ import authRoutes from './routes/auth.route.js';
 
 dotenv.config();
 
-const app = express(); // Create an instance of the Express application
+const app = express(); 
 
-app.use(express.json()); // Middleware to parse JSON bodies
+ 
 
 mongoose
-  .connect(process.env.MONGO, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO)
   .then(() => {
     console.log('MongoDB is connected');
   })
@@ -19,11 +19,11 @@ mongoose
     console.log(err);
   });
 
-app.use('/api/user', userRoutes); // Use the user routes
-app.use('/api/auth', authRoutes); // Use the auth routes
+  app.use(express.json());
 
-const PORT = process.env.PORT || 3000; // Define the port
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}!`);
+app.listen(3000, () => {
+  console.log('Server is running on port 3000!');
 });
+app.use('/api/user', userRoutes); 
+app.use('/api/auth', authRoutes); 

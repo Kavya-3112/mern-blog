@@ -1,28 +1,20 @@
-import User from '../models/user.model.js';
+import User from "../models/user.model.js";
+import bcryptjs from 'bcryptjs';
 
-export const signup = async (req, res, next) => {
+export const signup = async (req, res) => {
   const { username, email, password } = req.body;
 
-  if (!username || !email || !password || username === '' || email === '' || password === '') {
-    return res.status(400).json({ message: 'All fields are required' });
-  }
+  if (!username || !email || !password || username === "" || email === "" || password === "") {
+    return res.status(400).json({ message: "All fields are required" });
+
+    }
+  const hashedPassword = bcryptjs.hashSync(password,10);
 
   const newUser = new User({ username, email, password });
-
   try {
     await newUser.save();
-    res.json({ message: 'Signup successful' });
+    res.json('Signup successful');
   } catch (error) {
-    next(error);
+    res.status(500).json({message:error.message});
   }
 };
-
-export const signin = async (req, res, next) => {
-  // Your signin logic here
-};
-
-export const google = async (req, res, next) => {
-  // Your google auth logic here
-};
-
-
